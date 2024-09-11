@@ -10,5 +10,9 @@ namespace SalesBoard.Data
             : base(options)
         {
         }
+        public DbSet<SalesBoard.Models.Item> Item { get; set; } = default!;
+        public DbSet<SalesBoard.Models.Customer> Customer { get; set; }
+        public DbSet<SalesBoard.Models.Cart> Cart { get; set; }
+        public DbSet<SalesBoard.Models.CartItem> CartItem { get; set; }
     }
 }

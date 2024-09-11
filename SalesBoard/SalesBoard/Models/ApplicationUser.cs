@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SalesBoard.Models
 {
@@ -9,5 +10,8 @@ namespace SalesBoard.Models
         [PersonalData]
         public DateTime DOB {  get; set; }
 
+        public List<Item>? Item { get; set; }
+
+        public List<Customer>? Customers { get; set; }
     }
 }

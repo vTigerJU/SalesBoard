@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using SalesBoard.Data;
 using SalesBoard.Models;
+using SalesBoard.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
     .AddDefaultTokenProviders();
 
 builder.Services.AddTransient<EmailSender>();
+builder.Services.AddTransient<CartService>();
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 

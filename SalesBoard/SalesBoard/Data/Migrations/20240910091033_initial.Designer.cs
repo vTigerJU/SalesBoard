@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SalesBoard.Data;
 
@@ -11,9 +12,11 @@ using SalesBoard.Data;
 namespace SalesBoard.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240910091033_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -241,7 +244,7 @@ namespace SalesBoard.Data.Migrations
 
                     b.HasIndex("ApplicationUser");
 
-                    b.ToTable("Cart", (string)null);
+                    b.ToTable("Cart");
                 });
 
             modelBuilder.Entity("SalesBoard.Models.CartItem", b =>
@@ -267,7 +270,7 @@ namespace SalesBoard.Data.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("CartItem", (string)null);
+                    b.ToTable("CartItem");
                 });
 
             modelBuilder.Entity("SalesBoard.Models.Customer", b =>
@@ -292,7 +295,7 @@ namespace SalesBoard.Data.Migrations
 
                     b.HasIndex("ApplicationUser");
 
-                    b.ToTable("Customer", (string)null);
+                    b.ToTable("Customer");
                 });
 
             modelBuilder.Entity("SalesBoard.Models.Item", b =>
@@ -323,7 +326,7 @@ namespace SalesBoard.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Item", (string)null);
+                    b.ToTable("Item");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
