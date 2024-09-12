@@ -61,24 +61,26 @@ namespace SalesBoard.Services
             return cart.CartItems.Count();
         }
 
-        public void RemoveItem(int itemId)
+        public bool RemoveItem(int itemId, int quantity)
         {
             var cart = GetCart();
             var itemToRemove = cart.CartItems.FirstOrDefault(ci => ci.Item.Id == itemId);
-            if (itemToRemove == null) return;
-            if (itemToRemove.Quantity == 1)
+            if (itemToRemove == null) return false;
+            if (itemToRemove.Quantity > quantity)
             {
+                itemToRemove.Quantity -= quantity;
+                return true;
+            }
+            else if (itemToRemove.Quantity == quantity) { 
                 cart.CartItems.Remove(itemToRemove);
-            }
-            else
-            {
-                itemToRemove.Quantity -= 1;
-            }
+                return true;
+            }        
             _context.SaveChanges();
+            return false;
         }
         public void BuyItem(CartItem cartItem)
         {
-
+            var moneySpent = cartItem.Quantity * cartItem.Item.Price;
             var customer = _context.Customer.FirstOrDefault(c => c.Seller == cartItem.Item.User);
             if(customer == null)
             {
@@ -87,15 +89,18 @@ namespace SalesBoard.Services
 
                 customer.BuyerId = cartItem.Cart.User.Id;
                 customer.Seller = cartItem.Item.User;
-                customer.MoneySpent = cartItem.Quantity * cartItem.Item.Price;
+                customer.MoneySpent = moneySpent;
 
                 _context.Customer.Add(customer);
                          
             }
             else
             {
-                customer.MoneySpent += cartItem.Quantity * cartItem.Item.Price;
+                customer.MoneySpent += moneySpent;
             }
+            var sales = _context.SalesStatistics.FirstOrDefault();
+            sales.SalesMade += 1;
+            sales.Commission += moneySpent * sales.CommissionRate;
             _context.SaveChanges();
         }
 

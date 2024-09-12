@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,25 +13,47 @@ using SalesBoard.Services;
 
 namespace SalesBoard.Controllers
 {
+    //Displays all items available 
+    //Demands log in to purchase
     public class ItemsController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly CartService _cartService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ItemsController(ApplicationDbContext context, CartService cartService)
+        public ItemsController(ApplicationDbContext context, CartService cartService, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _cartService = cartService;
+            _userManager = userManager;
         }
 
         // GET: Items
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Item.ToListAsync());
+            var currentUserId = _userManager.GetUserId(User);
+
+            var items = from i in _context.Item select i;
+            if (!String.IsNullOrEmpty(searchString) )
+            {
+                items = items.Where(i => i.Name!.ToUpper().Contains(searchString.ToUpper()) && i.User.Id != currentUserId && i.Quantity > 0);
+            }
+            else if(currentUserId != null)
+            {
+                items = items.Where(i => i.User.Id != currentUserId && i.Quantity > 0);
+            }
+            else
+            {
+                items = items.Where(i => i.Quantity > 0);
+            }
+
+            return View(await items.ToListAsync());
         }
 
-        // GET: Items/Purchase/5
-        public async Task<IActionResult> Purchase(int? id)
+        // GET: Items/Purchase
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> Purchase(int? id, int quantity = 1)
         {
             if (id == null)
             {
@@ -41,15 +64,15 @@ namespace SalesBoard.Controllers
                 .Include(m => m.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
                 
-            if (item == null)
+            if (item == null || quantity > item.Quantity || quantity < 1)
             {
                 return NotFound();
             }
 
             if (item.Quantity > 0)
             {
-                _cartService.AddItem(item, 1);
-                item.Quantity--;
+                _cartService.AddItem(item, quantity);
+                item.Quantity -= quantity;
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Cart");
             }

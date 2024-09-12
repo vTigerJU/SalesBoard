@@ -12,6 +12,7 @@ using SalesBoard.Models;
 
 namespace SalesBoard.Controllers
 {
+    //User page for add/edit/deleting logged in Users items
     [Authorize(Roles="User")]
     public class UserItemsController : Controller
     {
@@ -65,7 +66,7 @@ namespace SalesBoard.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Description,Price,Quantity")] Item item)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,Quantity")] Item item)
         {
             if (ModelState.IsValid && _signInManager.IsSignedIn(User))
             {
@@ -98,7 +99,7 @@ namespace SalesBoard.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description,Price,Quantity")] Item item)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,Quantity")] Item item)
         {
             if (id != item.Id)
             {

@@ -5,7 +5,7 @@ namespace SalesBoard.Models
     public interface ICartService
     {
         void AddItem(Item item, int quantity);
-        void RemoveItem(int itemId);
+        bool RemoveItem(int itemId, int quantity);
         void ClearCart();
         void CheckOut();
         void BuyItem(CartItem cartItem);

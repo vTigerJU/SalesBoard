@@ -13,9 +13,22 @@ namespace SalesBoard.Models
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>());
 
+            SeedSalesStatistics(context);
             EnsureRoles(context);
             await EnsureAdmin(userManager);
             context.SaveChanges();
+        }
+
+        private static void SeedSalesStatistics(ApplicationDbContext context) 
+        {
+            if (!context.SalesStatistics.Any())
+            {
+                SalesStatistics statistics = new SalesStatistics();
+                statistics.SalesMade = 0;
+                statistics.Commission = 0;
+                statistics.CommissionRate = 0.01;
+                context.SalesStatistics.Add(statistics);
+            }
         }
 
         private static void EnsureRoles(ApplicationDbContext context)

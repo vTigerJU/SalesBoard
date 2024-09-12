@@ -11,7 +11,7 @@ namespace SalesBoard.Models
         public string? Description { get; set; }
         [Required]
         [DataType(DataType.Currency)]
-        public int Price { get; set; }
+        public double Price { get; set; }
         [Required]
         [Range(0, int.MaxValue, ErrorMessage ="Only positive numbers allowed")]
         public int Quantity { get; set; }

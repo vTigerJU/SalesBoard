@@ -1,0 +1,38 @@
+﻿@model SalesBoard.Models.SalesStatistics
+
+@{
+    ViewData["Title"] = "Sales Statistics";
+}
+
+<h1>Your shop</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Commission)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalesMade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommissionRate)
+            </th>
+          
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>    
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.Commission)$
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.SalesMade)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.CommissionRate)
+            </td>          
+        </tr>   
+    </tbody>
+</table>

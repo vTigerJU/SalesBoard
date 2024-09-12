@@ -14,5 +14,6 @@ namespace SalesBoard.Data
         public DbSet<SalesBoard.Models.Customer> Customer { get; set; }
         public DbSet<SalesBoard.Models.Cart> Cart { get; set; }
         public DbSet<SalesBoard.Models.CartItem> CartItem { get; set; }
+        public DbSet<SalesBoard.Models.SalesStatistics> SalesStatistics { get; set; }
     }
 }

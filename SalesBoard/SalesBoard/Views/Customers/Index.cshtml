@@ -1,0 +1,33 @@
+﻿@model IEnumerable<SalesBoard.Models.UserCustomerViewModel>
+
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<h1>Customers</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Buyer.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer.MoneySpent)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Buyer.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.MoneySpent)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

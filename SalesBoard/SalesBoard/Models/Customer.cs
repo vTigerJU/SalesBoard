@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SalesBoard.Models
@@ -11,7 +12,8 @@ namespace SalesBoard.Models
 
         [ForeignKey("ApplicationUser")]
         public ApplicationUser Seller { get; set; }
-        public int MoneySpent { get; set; } = 0;
+        [DisplayName("Money spent")]
+        public double MoneySpent { get; set; } = 0;
 
     }
 }

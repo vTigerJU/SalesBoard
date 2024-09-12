@@ -3,10 +3,17 @@
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Store";
 }
 
-<h1>Index</h1>
+<h1>Store</h1>
+
+<form asp-controller="Items" asp-action="Index" method="get">
+    <p>
+        Search: <input type="text" name="searchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
 
 <table class="table">
     <thead>
@@ -27,7 +34,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -42,19 +49,28 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                @if (SignInManager.IsSignedIn(User) && User.IsInRole("User")) @Html.ActionLink("Purchase","Purchase","Items",new {id = item.Id})
-                    <a asp-action="Details" asp-route-id="@item.Id">| Details </a>
-                @if (User.IsInRole("Admin"))
+                <div class="d-flex">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="me-2">Details </a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div>
+                            | <a asp-action="Edit" asp-route-id="@item.Id" class="me-2">Edit</a>
+                            | <a asp-action="Delete" asp-route-id="@item.Id" class="me-2"> Delete </a>
+                        </div>
+                    }
+                </div>
+            </td>
+            <td>
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
                 {
-                    <div>
-                            |
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id"> Delete </a>
-                    </div>
-                }
+                    <form asp-action="Purchase" asp-route-id="@item.Id">
+                        <input type="number" name="quantity" min="1" max="@item.Quantity" step="1" value="1" />
+                        <input type="submit" value="Purchase" class="btn btn-primary" />
+                    </form>
+                }      
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
 
