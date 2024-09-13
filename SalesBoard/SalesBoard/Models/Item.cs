@@ -15,7 +15,6 @@ namespace SalesBoard.Models
         [Required]
         [Range(0, int.MaxValue, ErrorMessage ="Only positive numbers allowed")]
         public int Quantity { get; set; }
-
         public ApplicationUser? User { get; set; }
 
     }

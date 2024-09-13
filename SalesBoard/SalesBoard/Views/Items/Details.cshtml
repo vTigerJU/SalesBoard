@@ -43,12 +43,12 @@
     {
         <form asp-action="Purchase" asp-route-id="@Model.Id">
             <input type="number" name="quantity" min="1" max="@Model.Quantity" step="1" value="1" />
-            <input type="submit" value="Purchase" class="btn btn-primary" />
+            <input type="submit" value="Purchase" class="btn-sm btn-primary" />
         </form>
     }    
     @if (User.IsInRole("Admin"))
     {
-        <a asp-action="Edit" asp-route-id="@Model?.Id"> Edit |</a>
+        <a class="m-2" asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
     }
-    <a asp-action="Index">Back to List</a>
+    <a class="m-2" asp-action="Index">Back to List</a>
 </div>
