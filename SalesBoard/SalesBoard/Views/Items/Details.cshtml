@@ -38,11 +38,17 @@
         </dd>
     </dl>
 </div>
-<div>
-    @if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))@Html.ActionLink("Purchase", "Purchase", "Items", new { id = Model.Id })
+<div class="d-flex">
+    @if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
+    {
+        <form asp-action="Purchase" asp-route-id="@Model.Id">
+            <input type="number" name="quantity" min="1" max="@Model.Quantity" step="1" value="1" />
+            <input type="submit" value="Purchase" class="btn btn-primary" />
+        </form>
+    }    
     @if (User.IsInRole("Admin"))
     {
-        <a asp-action="Edit" asp-route-id="@Model?.Id">| Edit </a>
+        <a asp-action="Edit" asp-route-id="@Model?.Id"> Edit |</a>
     }
-    <a asp-action="Index">| Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>

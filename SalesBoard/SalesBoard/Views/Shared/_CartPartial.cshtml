@@ -8,10 +8,12 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User) && CartService.CartCount() > 0)
     {
-        <li class="nav-item">
-            <form class="form-inline" asp-controller="Cart" asp-action="Index">
-                <button type="submit" class="nav-link btn btn-link text-dark">Show Cart</button>
-            </form>
+        <li>
+            <a class="m-3 text-dark" asp-controller="Cart" asp-action="Index">
+                <span class="material-symbols-outlined">
+                    shopping_cart
+                </span>
+            </a>
         </li>
     }
 </ul>
